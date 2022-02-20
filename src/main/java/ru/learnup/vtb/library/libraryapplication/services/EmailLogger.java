@@ -5,10 +5,10 @@ import org.springframework.stereotype.Component;
 import ru.learnup.vtb.library.libraryapplication.services.interfaces.Logger;
 
 @Component
-
-public class ConsoleLogger implements Logger {
+@Primary
+public class EmailLogger implements Logger {
     @Override
     public void print(Object obj) {
-        System.out.println(obj);
+        System.out.println("Email: " + obj);
     }
 }
