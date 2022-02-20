@@ -2,12 +2,14 @@ package ru.learnup.vtb.library.libraryapplication.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import ru.learnup.vtb.library.libraryapplication.model.Book;
 import ru.learnup.vtb.library.libraryapplication.services.interfaces.Logger;
 
 @Service
+@Scope("prototype")
 public class BookService {
 
     private Logger logger;
