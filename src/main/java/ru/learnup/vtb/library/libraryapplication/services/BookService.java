@@ -13,7 +13,7 @@ public class BookService {
     private Logger logger;
 
     @Autowired
-    public BookService(@Qualifier("consoleLogger") Logger logger) {
+    public BookService(Logger logger) {
         this.logger = logger;
     }
 
