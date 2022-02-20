@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.learnup.vtb.library.libraryapplication.services.interfaces.Logger;
 
 @Component
-@Primary
+//@Primary
 public class EmailLogger implements Logger {
     @Override
     public void print(Object obj) {

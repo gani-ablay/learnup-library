@@ -1,6 +1,7 @@
 package ru.learnup.vtb.library.libraryapplication.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import ru.learnup.vtb.library.libraryapplication.model.Book;
@@ -12,7 +13,7 @@ public class BookService {
     private Logger logger;
 
     @Autowired
-    public BookService(Logger logger) {
+    public BookService(@Qualifier("consoleLogger") Logger logger) {
         this.logger = logger;
     }
 
