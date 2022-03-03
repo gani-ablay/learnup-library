@@ -10,7 +10,7 @@ import ru.learnup.vtb.library.libraryapplication.services.EmailLogger;
 import ru.learnup.vtb.library.libraryapplication.services.interfaces.Logger;
 
 @Configuration
-@Profile("logger")
+@Profile("!logger")
 public class LoggersConfig {
 
     @Bean
