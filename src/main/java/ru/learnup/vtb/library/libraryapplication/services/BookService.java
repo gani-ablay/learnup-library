@@ -9,6 +9,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import ru.learnup.vtb.library.libraryapplication.events.SearchBookEvent;
 import ru.learnup.vtb.library.libraryapplication.model.Book;
 import ru.learnup.vtb.library.libraryapplication.services.interfaces.Logger;
 
@@ -34,21 +35,26 @@ public class BookService implements ApplicationContextAware {
     }
 
     @PostConstruct
-    public void init(){
+    public void init() {
         System.out.println(this.getClass().getSimpleName() + " успешно создан");
     }
 
     @PreDestroy
-    public void ustroyDestroy(){
+    public void ustroyDestroy() {
         System.out.println(this.getClass().getSimpleName() + " готовится к уничтожению");
     }
 
-    public Book getBookByName(String name) {
+    public Book getBookByName(String bookName) {
+/*
         logger.print(ctx.getMessage("hello", new Object[]{"ВТБ"}, Locale.ITALY));
         logger.print(ctx.getMessage("searchBook", new Object[]{name}, Locale.US) );
         logger.print(ctx.getMessage("searchBook", new Object[]{name}, Locale.ITALY) );
         logger.print(ctx.getMessage("searchBook", new Object[]{name}, Locale.FRANCE));
         logger.print(ctx);
-        return new Book(name, "default");
+*/
+        ctx.publishEvent(
+                new SearchBookEvent(
+                        new SearchBookEvent.Info(bookName)));
+        return new Book(bookName, "default");
     }
 }
