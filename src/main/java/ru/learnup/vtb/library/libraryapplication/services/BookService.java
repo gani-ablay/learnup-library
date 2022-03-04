@@ -22,12 +22,10 @@ public class BookService implements ApplicationContextAware {
 
     private Logger logger;
     private ApplicationContext ctx;
-    private MessageSource messageSource;
 
     @Autowired
-    public BookService(Logger logger, MessageSource messageSource) {
+    public BookService(Logger logger) {
         this.logger = logger;
-        this.messageSource = messageSource;
     }
 
     @Override
@@ -46,9 +44,10 @@ public class BookService implements ApplicationContextAware {
     }
 
     public Book getBookByName(String name) {
-        logger.print(messageSource.getMessage("searchBook", new Object[0], Locale.US) + name);
-        logger.print(messageSource.getMessage("searchBook", new Object[0], Locale.ITALY) + name);
-        logger.print(messageSource.getMessage("searchBook", new Object[0], Locale.FRANCE) + name);
+        logger.print(ctx.getMessage("hello", new Object[]{"ВТБ"}, Locale.ITALY));
+        logger.print(ctx.getMessage("searchBook", new Object[]{name}, Locale.US) );
+        logger.print(ctx.getMessage("searchBook", new Object[]{name}, Locale.ITALY) );
+        logger.print(ctx.getMessage("searchBook", new Object[]{name}, Locale.FRANCE));
         logger.print(ctx);
         return new Book(name, "default");
     }
