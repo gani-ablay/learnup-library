@@ -9,6 +9,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import ru.learnup.vtb.library.libraryapplication.annotations.Loggable;
 import ru.learnup.vtb.library.libraryapplication.events.SearchBookEvent;
 import ru.learnup.vtb.library.libraryapplication.model.Book;
 import ru.learnup.vtb.library.libraryapplication.services.interfaces.Logger;
@@ -43,6 +44,7 @@ public class BookService implements ApplicationContextAware {
         System.out.println(this.getClass().getSimpleName() + " готовится к уничтожению");
     }
 
+    @Loggable
     public Book getBookByName(String bookName) {
 /*
         logger.print(ctx.getMessage("hello", new Object[]{"ВТБ"}, Locale.ITALY));

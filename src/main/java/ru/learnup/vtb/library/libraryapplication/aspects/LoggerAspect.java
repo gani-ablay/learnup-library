@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class LoggerAspect {
 
-    @Pointcut("execution(* ru.learnup.vtb.library.libraryapplication.services.BookService.* (..))")
+    @Pointcut("@annotation(ru.learnup.vtb.library.libraryapplication.annotations.Loggable)")
     public void bookServiceLog() {
     }
 
