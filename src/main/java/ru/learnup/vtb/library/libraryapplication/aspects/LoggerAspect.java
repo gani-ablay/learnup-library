@@ -1,6 +1,7 @@
 package ru.learnup.vtb.library.libraryapplication.aspects;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +10,22 @@ import org.springframework.stereotype.Component;
 public class LoggerAspect {
 
     @Pointcut("execution(* ru.learnup.vtb.library.libraryapplication.services.BookService.* (..))")
-    public void bookServiceLog(){}
+    public void bookServiceLog() {
+    }
+
+    @Around("bookServiceLog()")
+    public void around(ProceedingJoinPoint point) {
+        String methodName = point.getSignature().getName() + "()";
+        print("Готовимся к выполнению метода " + methodName);
+
+        try {
+            point.proceed(new Object[]{"Мастер и Маргарита22"});
+            print("Завершилась работа метода " + methodName);
+        } catch (Throwable throwable) {
+            print("Метод " + methodName + "() завершился с ошибкой");
+            throwable.printStackTrace();
+        }
+    }
 
     @AfterReturning("bookServiceLog()")
     public void afterSuccess(JoinPoint point) {
