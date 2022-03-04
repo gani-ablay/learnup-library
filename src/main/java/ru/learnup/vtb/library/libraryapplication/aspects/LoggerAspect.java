@@ -11,9 +11,14 @@ public class LoggerAspect {
     @Pointcut("execution(* ru.learnup.vtb.library.libraryapplication.services.BookService.* (..))")
     public void bookServiceLog(){}
 
-    @After("bookServiceLog()")
-    public void after(JoinPoint point) {
+    @AfterReturning("bookServiceLog()")
+    public void afterSuccess(JoinPoint point) {
         print("Завершилась работа метода " + point.getSignature().getName());
+    }
+
+    @AfterThrowing("bookServiceLog()")
+    public void afterError(JoinPoint point) {
+        print("Метод " + point.getSignature().getName() + "() завершился с ошибкой");
     }
 
     @Before("bookServiceLog()")

@@ -18,7 +18,6 @@ import javax.annotation.PreDestroy;
 import java.util.Locale;
 
 @Service
-@Scope("prototype")
 public class BookService implements ApplicationContextAware {
 
     private Logger logger;
@@ -56,5 +55,9 @@ public class BookService implements ApplicationContextAware {
                 new SearchBookEvent(
                         new SearchBookEvent.Info(bookName)));
         return new Book(bookName, "default");
+    }
+
+    public void error() {
+        throw new RuntimeException("Упс!");
     }
 }

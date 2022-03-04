@@ -13,6 +13,7 @@ public class LibraryApplication {
 
 		//((BookService) ctx.getBean("ololoService")).getBookByName("Мастер и Маргарита");
 		ctx.getBean(BookService.class).getBookByName("Мастер и Маргарита");
+		ctx.getBean(BookService.class).error();
 	}
 
 }
