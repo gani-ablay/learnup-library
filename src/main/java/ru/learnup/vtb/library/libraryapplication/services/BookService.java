@@ -29,9 +29,8 @@ public class BookService implements ApplicationContextAware {
     }
 
     public void printAll() {
-        for (BookEntity bookEntity : repository.getAll()) {
-            System.out.println(bookEntity);
-        }
+
+        repository.getAll().forEach(System.out::println);
     }
 
     public void save(Book book) {
