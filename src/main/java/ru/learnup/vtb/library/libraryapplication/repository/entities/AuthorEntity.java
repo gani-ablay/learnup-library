@@ -23,7 +23,7 @@ public class AuthorEntity {
     @Column(name = "name", length = 64)
     private String name;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private Collection<BookEntity> books;
 
     @Override
