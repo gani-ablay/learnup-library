@@ -1,3 +1,4 @@
+/*
 package ru.learnup.vtb.library.libraryapplication.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,3 +59,4 @@ public class JdbcTemplateBookRepository implements BookRepository {
         return jdbc.update(sql, bookId) == 1;
     }
 }
+*/

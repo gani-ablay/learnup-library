@@ -1,3 +1,4 @@
+/*
 package ru.learnup.vtb.library.libraryapplication.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,3 +63,4 @@ public class NamedJdbcTemplateBookRepository implements BookRepository {
                 singletonMap("id", bookId)) == 1;
     }
 }
+*/

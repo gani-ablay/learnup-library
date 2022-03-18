@@ -1,3 +1,4 @@
+/*
 package ru.learnup.vtb.library.libraryapplication.repository;
 
 import org.springframework.context.annotation.Profile;
@@ -83,3 +84,4 @@ public class JdbcBookRepository implements BookRepository {
         }
     }
 }
+*/
