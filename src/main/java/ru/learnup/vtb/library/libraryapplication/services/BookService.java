@@ -37,7 +37,7 @@ public class BookService implements ApplicationContextAware {
     }
 
     public void printAllLike(String pattern) {
-        for (BookEntity bookEntity : repository.findAllByNameLikeOrderById(pattern)) {
+        for (BookEntity bookEntity : repository.getMyFilteredResult(pattern)) {
             System.out.println(bookEntity);
         }
     }
