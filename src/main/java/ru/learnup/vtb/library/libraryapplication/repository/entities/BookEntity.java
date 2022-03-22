@@ -12,6 +12,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "books")
+@NamedQueries({
+        @NamedQuery(name = "book.findlikename", query = "from BookEntity b where b.name like :pattern")
+})
 public class BookEntity {
 
     @Id
