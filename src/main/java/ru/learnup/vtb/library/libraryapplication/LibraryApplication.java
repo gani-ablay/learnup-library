@@ -17,14 +17,14 @@ public class LibraryApplication {
 
         final BookService bookService = ctx.getBean(BookService.class);
 
+/*
         bookService.printAllLike("Ка%");
 
         bookService.printAllLike("%ро%");
+*/
 
-/*
         final AuthorService authorService = ctx.getBean(AuthorService.class);
         authorService.printAll();
-*/
 
     }
 

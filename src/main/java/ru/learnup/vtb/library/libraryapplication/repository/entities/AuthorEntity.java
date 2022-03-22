@@ -13,6 +13,22 @@ import java.util.Collection;
 @NoArgsConstructor
 @Entity
 @Table(name = "authors")
+@NamedEntityGraph(
+        name = "author-with-books",
+        attributeNodes = {
+                @NamedAttributeNode("id"),
+                @NamedAttributeNode("name"),
+                @NamedAttributeNode(value = "books", subgraph = "author-books")
+        },
+
+        subgraphs = {
+                @NamedSubgraph(name = "author-books", attributeNodes = {
+                        @NamedAttributeNode("id"),
+                        @NamedAttributeNode("name"),
+                        @NamedAttributeNode("author")
+                })
+        }
+)
 public class AuthorEntity {
 
     @Id
@@ -23,7 +39,7 @@ public class AuthorEntity {
     @Column(name = "name", length = 64)
     private String name;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "author")
     private Collection<BookEntity> books;
 
     @Override
