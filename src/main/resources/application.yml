@@ -9,3 +9,13 @@ spring:
     username: 'postgres'
     password: 'pool'
     driver-class-name: 'org.postgresql.Driver'
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        javax.cache:
+          provider: 'org.ehcache.jsr107.EhcacheCachingProvider'
+        cache:
+          use_second_level_cache: true
+          region.factory_class: 'org.hibernate.cache.jcache.internal.JCacheRegionFactory'
+          use_query_cache: true

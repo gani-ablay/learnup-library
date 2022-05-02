@@ -12,4 +12,7 @@ public interface JpaAuthorRepository extends JpaRepository<AuthorEntity, Long> {
     @EntityGraph(value = "author-with-books")
     @Override
     List<AuthorEntity> findAll();
+
+    AuthorEntity getByName(String name);
+
 }

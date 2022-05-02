@@ -4,6 +4,10 @@ package ru.learnup.vtb.library.libraryapplication.repository.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
+import org.springframework.cache.annotation.EnableCaching;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -29,6 +33,8 @@ import java.util.Collection;
                 })
         }
 )
+@Cacheable({"author.id", "author.name"})
+@org.hibernate.annotations.Cache(include = "non-lazy", region = "author.id", usage = CacheConcurrencyStrategy.READ_ONLY)
 public class AuthorEntity {
 
     @Id
@@ -45,9 +51,11 @@ public class AuthorEntity {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(String.format("%s (%d)\n", name, id));
+/*
         for (BookEntity book : books) {
             sb.append(book).append("\n");
         }
+*/
 
         return sb.toString();
     }
