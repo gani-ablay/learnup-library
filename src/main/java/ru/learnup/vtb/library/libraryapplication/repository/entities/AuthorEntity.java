@@ -33,8 +33,10 @@ import java.util.Collection;
                 })
         }
 )
+/*
 @Cacheable({"author.id", "author.name"})
 @org.hibernate.annotations.Cache(include = "non-lazy", region = "author.id", usage = CacheConcurrencyStrategy.READ_ONLY)
+*/
 public class AuthorEntity {
 
     @Id

@@ -2,9 +2,13 @@ package ru.learnup.vtb.library.libraryapplication.services;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 import ru.learnup.vtb.library.libraryapplication.annotations.Loggable;
 import ru.learnup.vtb.library.libraryapplication.events.SearchBookEvent;
@@ -17,6 +21,9 @@ import ru.learnup.vtb.library.libraryapplication.services.interfaces.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.io.EOFException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -27,13 +34,11 @@ public class BookService implements ApplicationContextAware {
     private Logger logger;
     private ApplicationContext ctx;
     private JpaBookRepository repository;
-    private TransactionTemplate txTemplate;
 
     @Autowired
-    public BookService(Logger logger, JpaBookRepository repository, TransactionTemplate txTemplate) {
+    public BookService(Logger logger, JpaBookRepository repository) {
         this.logger = logger;
         this.repository = repository;
-        this.txTemplate = txTemplate;
     }
 
     public void printAll() {
@@ -47,19 +52,24 @@ public class BookService implements ApplicationContextAware {
         }
     }
 
-    public void demo() {
-       txTemplate.executeWithoutResult((status) -> {
+    @Transactional(
+            propagation = Propagation.REQUIRED,
+            isolation = Isolation.DEFAULT,
+            timeout = 2,
+            rollbackFor = {IOException.class, FileNotFoundException.class, EOFException.class}
+    )
+    public void demo(AuthorEntity authorEntity) {
            try {
                final BookEntity newBook = repository.save(
-                       new BookEntity(null, "123", new AuthorEntity(1L, "NULL", Collections.emptyList()))
+                       new BookEntity(null, "999", authorEntity)
                );
-               newBook.setName("Мцыри");
+               newBook.setName("222");
                repository.save(newBook);
+
+//               Thread.sleep(3000);
            } catch (Exception err) {
                System.out.println(err);
-               status.setRollbackOnly();
            }
-       });
     }
 
     public void save(Book book) {

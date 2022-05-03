@@ -25,9 +25,10 @@ public class LibraryApplication {
         final ConfigurableApplicationContext ctx = SpringApplication.run(LibraryApplication.class, args);
 
         final BookService bookService = ctx.getBean(BookService.class);
+        final AuthorEntity aNull = ctx.getBean(AuthorService.class).getByName("NULL");
 
         final List<BookEntity> books = bookService.getAll();
-        bookService.demo();
+        bookService.demo(aNull);
 
     }
 
