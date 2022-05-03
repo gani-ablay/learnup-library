@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.TransactionTemplate;
 import ru.learnup.vtb.library.libraryapplication.annotations.Loggable;
 import ru.learnup.vtb.library.libraryapplication.events.SearchBookEvent;
 import ru.learnup.vtb.library.libraryapplication.model.Book;
@@ -16,7 +17,9 @@ import ru.learnup.vtb.library.libraryapplication.services.interfaces.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BookService implements ApplicationContextAware {
@@ -24,11 +27,13 @@ public class BookService implements ApplicationContextAware {
     private Logger logger;
     private ApplicationContext ctx;
     private JpaBookRepository repository;
+    private TransactionTemplate txTemplate;
 
     @Autowired
-    public BookService(Logger logger, JpaBookRepository repository) {
+    public BookService(Logger logger, JpaBookRepository repository, TransactionTemplate txTemplate) {
         this.logger = logger;
         this.repository = repository;
+        this.txTemplate = txTemplate;
     }
 
     public void printAll() {
@@ -40,6 +45,21 @@ public class BookService implements ApplicationContextAware {
         for (BookEntity bookEntity : repository.getMyFilteredResult(pattern)) {
             System.out.println(bookEntity);
         }
+    }
+
+    public void demo() {
+       txTemplate.executeWithoutResult((status) -> {
+           try {
+               final BookEntity newBook = repository.save(
+                       new BookEntity(null, "123", new AuthorEntity(1L, "NULL", Collections.emptyList()))
+               );
+               newBook.setName("Мцыри");
+               repository.save(newBook);
+           } catch (Exception err) {
+               System.out.println(err);
+               status.setRollbackOnly();
+           }
+       });
     }
 
     public void save(Book book) {
@@ -68,5 +88,9 @@ public class BookService implements ApplicationContextAware {
 
     public void error() {
         throw new RuntimeException("Упс!");
+    }
+
+    public List<BookEntity> getAll() {
+        return repository.findAll();
     }
 }
