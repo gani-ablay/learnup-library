@@ -2,21 +2,16 @@ package ru.learnup.vtb.library.libraryapplication.services;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
-import ru.learnup.vtb.library.libraryapplication.annotations.Loggable;
-import ru.learnup.vtb.library.libraryapplication.events.SearchBookEvent;
 import ru.learnup.vtb.library.libraryapplication.model.Book;
 import ru.learnup.vtb.library.libraryapplication.repository.JpaBookRepository;
 import ru.learnup.vtb.library.libraryapplication.repository.entities.AuthorEntity;
 import ru.learnup.vtb.library.libraryapplication.repository.entities.BookEntity;
-import ru.learnup.vtb.library.libraryapplication.repository.interfaces.BookRepository;
 import ru.learnup.vtb.library.libraryapplication.services.interfaces.Logger;
 
 import javax.annotation.PostConstruct;
@@ -24,9 +19,7 @@ import javax.annotation.PreDestroy;
 import java.io.EOFException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class BookService implements ApplicationContextAware {
@@ -52,24 +45,39 @@ public class BookService implements ApplicationContextAware {
         }
     }
 
+    @Transactional
+    public void rename(long id, String newName) {
+        final BookEntity forUpdate = repository.getForUpdate(id);
+        System.out.println("Объект получен");
+
+        forUpdate.setName(newName);
+
+        try {
+            Thread.sleep(1000);
+            repository.save(forUpdate);
+            System.out.println("Объект записан");
+        } catch (InterruptedException e) {}
+    }
+
     @Transactional(
             propagation = Propagation.REQUIRED,
             isolation = Isolation.DEFAULT,
             timeout = 2,
             rollbackFor = {IOException.class, FileNotFoundException.class, EOFException.class}
     )
-    public void demo(AuthorEntity authorEntity) {
+    public void demo(AuthorEntity authorEntity) throws EOFException{
            try {
                final BookEntity newBook = repository.save(
                        new BookEntity(null, "999", authorEntity)
                );
-               newBook.setName("222");
+               newBook.setName("333");
                repository.save(newBook);
 
 //               Thread.sleep(3000);
            } catch (Exception err) {
                System.out.println(err);
            }
+           throw new EOFException();
     }
 
     public void save(Book book) {

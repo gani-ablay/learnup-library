@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "books")
 @NamedQueries({
-        @NamedQuery(name = "book.findlikename", query = "from BookEntity b where b.name like :pattern")
+        @NamedQuery(name = "book.findlikename", query = "from BookEntity b where b.name like :pattern", lockMode =  LockModeType.PESSIMISTIC_WRITE)
 })
 /*
 @Cacheable
